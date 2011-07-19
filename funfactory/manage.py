@@ -101,4 +101,7 @@ def setup_environ(manage_file, settings=None):
 
 
 def main():
+    if current_settings is None:
+        raise EnvironmentError(
+                'setup_environ() has not been called for this process')
     execute_manager(current_settings)
