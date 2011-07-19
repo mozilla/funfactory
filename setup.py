@@ -1,3 +1,5 @@
+import os
+
 extra_setup = {}
 try:
     from setuptools import setup, find_packages
@@ -11,7 +13,8 @@ setup(
     name='funfactory',
     version='1.0',
     description="Mozilla's Django app skeleton.",
-    long_description=open('README.rst').read(),
+    long_description=open(os.path.join(os.path.dirname(__file__),
+                                       'README.rst')).read(),
     author='Kumar McMillan and contributors',
     author_email='',
     license="Mozilla License",
