@@ -34,7 +34,9 @@ def setup_environ(manage_file, settings=None):
     prev_sys_path = list(sys.path)
 
     # Make settings_local importable
-    sys.path.append(os.getcwd())
+    sys.path.append(ROOT)
+    # Give precedence to your app's parent dir, which contains __init__.py
+    sys.path.append(os.path.abspath(os.path.join(ROOT, os.pardir)))
 
     site.addsitedir(path('apps'))
     site.addsitedir(path('lib'))
