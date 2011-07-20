@@ -12,6 +12,8 @@ ROOT = None
 
 
 def path(*a):
+    if ROOT is None:
+        _not_setup()
     return os.path.join(ROOT, *a)
 
 
@@ -102,8 +104,12 @@ def setup_environ(manage_file, settings=None):
         djcelery.setup_loader()
 
 
+def _not_setup():
+    raise EnvironmentError(
+            'setup_environ() has not been called for this process')
+
+
 def main():
     if current_settings is None:
-        raise EnvironmentError(
-                'setup_environ() has not been called for this process')
+        _not_setup()
     execute_manager(current_settings)

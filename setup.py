@@ -6,7 +6,8 @@ try:
 except ImportError:
     from distutils.core import setup
 else:
-    extra_setup.update(dict(packages=find_packages(exclude=['ez_setup']),
+    pkgs = find_packages(exclude=['ez_setup', 'tests'])
+    extra_setup.update(dict(packages=pkgs,
                             install_requires=[]))
 
 setup(

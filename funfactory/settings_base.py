@@ -137,7 +137,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.csrf',
     'django.contrib.messages.context_processors.messages',
 
-    'commons.context_processors.i18n',
+    'funfactory.context_processors.i18n',
     #'jingo_minify.helpers.build_ids',
 )
 
@@ -182,7 +182,7 @@ MINIFY_BUNDLES = {
 ## Middlewares, apps, URL configs.
 
 MIDDLEWARE_CLASSES = (
-    'commons.middleware.LocaleURLMiddleware',
+    'funfactory.middleware.LocaleURLMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -196,7 +196,7 @@ ROOT_URLCONF = '%s.urls' % ROOT_PACKAGE
 
 INSTALLED_APPS = (
     # Local apps
-    'commons',  # Content common to most playdoh-based apps.
+    'funfactory',  # Content common to most playdoh-based apps.
     'jingo_minify',
     'tower',  # for ./manage.py extract (L10n)
 
