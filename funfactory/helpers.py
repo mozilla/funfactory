@@ -34,12 +34,11 @@ def url(viewname, *args, **kwargs):
 
 @register.filter
 def urlparams(url_, hash=None, **query):
-    """
-Add a fragment and/or query paramaters to a URL.
+    """Add a fragment and/or query paramaters to a URL.
 
-New query params will be appended to exising parameters, except duplicate
-names, which will be replaced.
-"""
+    New query params will be appended to exising parameters, except duplicate
+    names, which will be replaced.
+    """
     url = urlparse.urlparse(url_)
     fragment = hash if hash is not None else url.fragment
 
