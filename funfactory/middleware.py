@@ -47,7 +47,7 @@ class LocaleURLMiddleware(object):
 
             # Vary on Accept-Language if we changed the locale
             old_locale = prefixer.locale
-            new_locale, _ = prefixer.split_path(full_path)
+            new_locale, _ = urlresolvers.split_path(full_path)
             if old_locale != new_locale:
                 response['Vary'] = 'Accept-Language'
 
