@@ -95,6 +95,12 @@ def setup_environ(manage_file, settings=None):
     import safe_django_forms
     safe_django_forms.monkeypatch()
 
+    # Monkey-patch Django's csrf_protect decorator to use session-based CSRF
+    # tokens:
+    if 'session_csrf' in settings.INSTALLED_APPS:
+        import session_csrf
+        session_csrf.monkeypatch()
+
     # Configure Celery (optional)
     try:
         import djcelery

@@ -134,9 +134,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.debug',
     'django.core.context_processors.media',
     'django.core.context_processors.request',
-    'django.core.context_processors.csrf',
+    'session_csrf.context_processor',
     'django.contrib.messages.context_processors.messages',
-
     'funfactory.context_processors.i18n',
     #'jingo_minify.helpers.build_ids',
 )
@@ -170,10 +169,9 @@ MIDDLEWARE_CLASSES = (
     'funfactory.middleware.LocaleURLMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'session_csrf.CsrfMiddleware',  # Must be after auth middleware.
     'django.contrib.messages.middleware.MessageMiddleware',
-
     'commonware.middleware.FrameOptionsHeader',
 )
 
@@ -188,17 +186,11 @@ INSTALLED_APPS = (
     # We need this so the jsi18n view will pick up our locale directory.
     ROOT_PACKAGE,
 
-    # Third-party apps
-    'commonware.response.cookies',
-    'djcelery',
-    'django_nose',
-
     # Django contrib apps
     'django.contrib.auth',
     'django_sha2',  # Load after auth to monkey-patch it.
-
     'django.contrib.contenttypes',
-    # 'django.contrib.sessions',
+    'django.contrib.sessions',
     # 'django.contrib.sites',
     # 'django.contrib.messages',
     # Uncomment the next line to enable the admin:
@@ -206,9 +198,14 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 
+    # Third-party apps, patches, fixes
+    'commonware.response.cookies',
+    'djcelery',
+    'django_nose',
+    'session_csrf',
+
     # L10n
     'product_details',
-
 )
 
 # Tells the extract script what files to look for L10n in and what function
