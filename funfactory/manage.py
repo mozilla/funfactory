@@ -102,11 +102,8 @@ def setup_environ(manage_file, settings=None):
         session_csrf.monkeypatch()
 
     # Configure Celery (optional)
-    try:
+    if 'djcelery' in settings.INSTALLED_APPS:
         import djcelery
-    except ImportError, exc:
-        log.warning('%s (playdoh did not initialize djcelery)' % exc)
-    else:
         djcelery.setup_loader()
 
 
