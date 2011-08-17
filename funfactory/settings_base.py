@@ -2,6 +2,7 @@
 # import * into your settings_local.py
 import logging
 import os
+import socket
 
 from django.utils.functional import lazy
 
@@ -254,3 +255,8 @@ BROKER_CONNECTION_TIMEOUT = 0.1
 CELERY_RESULT_BACKEND = 'amqp'
 CELERY_IGNORE_RESULT = True
 CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
+
+# For absoluate urls
+DOMAIN = socket.gethostname()
+PROTOCOL = "http://"
+PORT = 80
