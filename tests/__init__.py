@@ -70,7 +70,7 @@ class FunFactoryTests(Plugin):
                                     "'PASSWORD': '%s'" % DB_PASS)
             new_st = new_st.replace("'NAME': ''",
                                     "'NAME': '%s'" % DB_NAME)
-            new_st = new_st + "INSTALLED_APPS = list(INSTALLED_APPS) + " \
+            new_st = new_st + "\nINSTALLED_APPS = list(INSTALLED_APPS) + " \
                      "['django.contrib.admin']\n"
 
         with open(st, 'w') as f:

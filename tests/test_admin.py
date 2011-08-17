@@ -14,6 +14,10 @@ urlpatterns = patterns('',
 
 
 class FakeLoader(BaseLoader):
+    """
+    Gets around TemplateNotFound errors by always returning an empty string as
+    the template.
+    """
     is_usable = True
 
     def load_template_source(self, template_name, template_dirs=None):
@@ -28,5 +32,5 @@ class SessionCsrfAdminTests(test_utils.TestCase):
 
     def test_login_has_csrf(self):
         self.client.get('admin/', follow=True)
-        assert self.client.cookies.get(ANON_COOKIE) != None, \
+        assert self.client.cookies.get(ANON_COOKIE), \
                "Anonymous CSRF Cookie not set."
