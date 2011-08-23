@@ -256,7 +256,10 @@ CELERY_RESULT_BACKEND = 'amqp'
 CELERY_IGNORE_RESULT = True
 CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
 
-# For absoluate urls
-DOMAIN = socket.gethostname()
+# For absolute urls
+try:
+    DOMAIN = socket.gethostname()
+except socket.error:
+    DOMAIN = 'localhost'
 PROTOCOL = "http://"
 PORT = 80

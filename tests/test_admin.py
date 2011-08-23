@@ -3,6 +3,7 @@ from django.conf.urls.defaults import patterns
 from django.template.loader import BaseLoader
 
 import test_utils
+from mock import patch
 from session_csrf import ANON_COOKIE
 
 from funfactory.admin import site
@@ -24,13 +25,11 @@ class FakeLoader(BaseLoader):
         return ('', 'FakeLoader')
 
 
+@patch.object(settings, 'TEMPLATE_LOADERS', ['tests.test_admin.FakeLoader'])
 class SessionCsrfAdminTests(test_utils.TestCase):
     urls = 'tests.test_admin'
 
-    def setUp(self):
-        settings.TEMPLATE_LOADERS = ['tests.test_admin.FakeLoader']
-
     def test_login_has_csrf(self):
         self.client.get('admin/', follow=True)
-        assert self.client.cookies.get(ANON_COOKIE), \
-               "Anonymous CSRF Cookie not set."
+        assert self.client.cookies.get(ANON_COOKIE), (
+            "Anonymous CSRF Cookie not set.")
