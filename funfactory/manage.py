@@ -90,6 +90,9 @@ def setup_environ(manage_file, settings=None):
     # required environment variables.
     setup_environ(settings)
 
+    # Import for side-effect: configures logging handlers.
+    # pylint: disable-msg=W0611
+    import log_settings
     # Monkey-patch django forms to avoid having to use Jinja2's |safe
     # everywhere.
     import safe_django_forms
