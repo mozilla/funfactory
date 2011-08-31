@@ -42,12 +42,21 @@ cfg = {
             'facility': logging.handlers.SysLogHandler.LOG_LOCAL7,
             'formatter': 'prod',
         },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
         'null': {
             '()': NullHandler,
         }
     },
     'loggers': {
         'i': {},
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
     },
     'root': {},
 }
