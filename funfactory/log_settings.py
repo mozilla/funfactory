@@ -51,7 +51,6 @@ cfg = {
         }
     },
     'loggers': {
-        'i': {},
         'django.request': {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
