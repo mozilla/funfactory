@@ -38,7 +38,7 @@ class FunFactoryTests(Plugin):
         self.enabled = True  # Enables the plugin without a cmd line flag
         self.options = options
 
-    def begin(selg):
+    def begin(self):
         if not os.path.exists(PLAYDOH):
             container = os.path.abspath(os.path.join(PLAYDOH, '..'))
             if not os.path.exists(container):
