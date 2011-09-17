@@ -8,3 +8,8 @@ def i18n(request):
                     or translation.get_language(),
             'DIR': 'rtl' if translation.get_language_bidi() else 'ltr',
             }
+
+
+def globals(request):
+    return {'request': request,
+            'settings': settings}

@@ -138,6 +138,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'session_csrf.context_processor',
     'django.contrib.messages.context_processors.messages',
     'funfactory.context_processors.i18n',
+    'funfactory.context_processors.globals',
     #'jingo_minify.helpers.build_ids',
 )
 
