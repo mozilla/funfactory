@@ -175,6 +175,8 @@ MIDDLEWARE_CLASSES = (
     'session_csrf.CsrfMiddleware',  # Must be after auth middleware.
     'django.contrib.messages.middleware.MessageMiddleware',
     'commonware.middleware.FrameOptionsHeader',
+    'mobility.middleware.DetectMobileMiddleware',
+    'mobility.middleware.XMobileMiddleware',
 )
 
 ROOT_URLCONF = '%s.urls' % ROOT_PACKAGE
@@ -264,3 +266,6 @@ except socket.error:
     DOMAIN = 'localhost'
 PROTOCOL = "http://"
 PORT = 80
+
+## django-mobility
+MOBILE_COOKIE = 'mobile'
