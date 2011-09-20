@@ -109,6 +109,13 @@ def setup_environ(manage_file, settings=None):
         import djcelery
         djcelery.setup_loader()
 
+    # Monkeypatch our url resolver
+    if ('funfactory.middleware.LocaleURLMiddleware' in
+        settings.MIDDLEWARE_CLASSES):
+        from funfactory.urlresolvers import reverse
+        from django.core import urlresolvers
+        urlresolvers.reverse = reverse
+
 
 def _not_setup():
     raise EnvironmentError(
