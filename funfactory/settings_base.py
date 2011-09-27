@@ -70,7 +70,7 @@ try:
     DEV_LANGUAGES = [
         loc.replace('_', '-') for loc in os.listdir(path('locale'))
         if (os.path.isdir(path('locale', loc)) and loc != 'templates'
-            and loc[0] != '.')
+            and not loc.startswith('.'))
     ]
 except OSError:
     DEV_LANGUAGES = ('en-US',)
