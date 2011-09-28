@@ -94,7 +94,7 @@ def lazy_langs():
     from product_details import product_details
     langs = DEV_LANGUAGES if settings.DEV else settings.PROD_LANGUAGES
     return dict([(lang.lower(), product_details.languages[lang]['native'])
-                 for lang in langs])
+                 for lang in langs if lang in product_details.languages])
 
 # Where to store product details etc.
 PROD_DETAILS_DIR = path('lib/product_details_json')
