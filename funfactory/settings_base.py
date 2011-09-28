@@ -28,7 +28,7 @@ LOG_LEVEL = logging.DEBUG
 HAS_SYSLOG = True
 SYSLOG_TAG = "http_app_playdoh"  # Change this after you fork.
 LOGGING_CONFIG = None
-LOGGING = { }
+LOGGING = {}
 
 
 ## Internationalization.
