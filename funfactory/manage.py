@@ -60,14 +60,15 @@ def setup_environ(manage_file, settings=None):
     sys.path[:0] = new_sys_path
 
     from django.core.management import execute_manager, setup_environ
-    if os.path.isfile(os.path.join(os.getcwd(), 'settings_local.py')):
-        import settings_local as settings
-        import warnings
-        warnings.warn("Using settings_local.py is deprecated. See "\
-                      "http://playdoh.readthedocs.org/en/latest/upgrading.html",
-                      DeprecationWarning)
-    else:
-        import settings
+    if not settings:
+        if os.path.isfile(os.path.join(os.getcwd(), 'settings_local.py')):
+            import settings_local as settings
+            import warnings
+            warnings.warn("Using settings_local.py is deprecated. See "
+                     "http://playdoh.readthedocs.org/en/latest/upgrading.html",
+                          DeprecationWarning)
+        else:
+            import settings
     current_settings = settings
 
     # If we want to use django settings anywhere, we need to set up the
