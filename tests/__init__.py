@@ -50,11 +50,7 @@ class FunFactoryTests(Plugin):
             proj_sh = partial(shell, cwd=PLAYDOH)
             proj_sh('git pull origin base')
             proj_sh('git submodule sync -q')
-            proj_sh('git submodule update --init')
-            vend_sh = partial(shell, cwd=os.path.join(PLAYDOH, 'vendor'))
-            vend_sh('git pull origin master')
-            vend_sh('git submodule sync -q')
-            vend_sh('git submodule update --init')
+            proj_sh('git submodule update --init --recursive')
 
         st = os.path.join(PLAYDOH, 'settings_local.py')
         if os.path.exists(st):
