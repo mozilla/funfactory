@@ -81,6 +81,11 @@ class FunFactoryTests(Plugin):
                    cwd=PLAYDOH)
 
         # For in-process tests:
-        manage.setup_environ(os.path.join(PLAYDOH, 'manage.py'))
+        wd = os.getcwd()
+        os.chdir(PLAYDOH)  # Simulate what happens in a real app.
+        try:
+            manage.setup_environ(os.path.join(PLAYDOH, 'manage.py'))
+        finally:
+            os.chdir(wd)
         # Puts path back to this dev version of funfactory:
         sys.path.insert(0, ROOT)
