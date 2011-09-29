@@ -61,7 +61,7 @@ def setup_environ(manage_file, settings=None):
 
     from django.core.management import execute_manager, setup_environ
     if not settings:
-        if os.path.isfile(os.path.join(os.getcwd(), 'settings_local.py')):
+        if os.path.isfile(os.path.join(ROOT, 'settings_local.py')):
             import settings_local as settings
             import warnings
             warnings.warn("Using settings_local.py is deprecated. See "
