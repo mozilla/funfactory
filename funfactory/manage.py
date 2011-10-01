@@ -3,6 +3,7 @@ import logging
 import os
 import site
 import sys
+import warnings
 
 
 current_settings = None
@@ -63,13 +64,13 @@ def setup_environ(manage_file, settings=None):
     if not settings:
         if os.path.isfile(os.path.join(ROOT, 'settings_local.py')):
             import settings_local as settings
-            import warnings
             warnings.warn("Using settings_local.py is deprecated. See "
                      "http://playdoh.readthedocs.org/en/latest/upgrading.html",
                           DeprecationWarning)
         else:
             import settings
     current_settings = settings
+    validate_settings(settings)
 
     # If we want to use django settings anywhere, we need to set up the
     # required environment variables.
@@ -93,6 +94,16 @@ def setup_environ(manage_file, settings=None):
     if 'djcelery' in settings.INSTALLED_APPS:
         import djcelery
         djcelery.setup_loader()
+
+
+def validate_settings(settings):
+    from django.core.exceptions import ImproperlyConfigured
+    if settings.SECRET_KEY == '':
+        msg = 'settings.SECRET_KEY cannot be blank! Check your local settings'
+        if settings.DEBUG:
+            warnings.warn(msg)
+        else:
+            raise ImproperlyConfigured(msg)
 
 
 def _not_setup():
