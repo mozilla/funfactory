@@ -60,11 +60,11 @@ class FunFactoryTests(Plugin):
 
         with open(st, 'r') as f:
             new_st = f.read()
-            new_st = new_st.replace("'USER': ''",
+            new_st = new_st.replace("'USER': 'root'",
                                     "'USER': '%s'" % DB_USER)
             new_st = new_st.replace("'PASSWORD': ''",
                                     "'PASSWORD': '%s'" % DB_PASS)
-            new_st = new_st.replace("'NAME': ''",
+            new_st = new_st.replace("'NAME': 'playdoh_app'",
                                     "'NAME': '%s'" % DB_NAME)
             new_st = new_st.replace("SECRET_KEY = ''",
                                     "SECRET_KEY = 'testinglolz'")
