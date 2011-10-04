@@ -1,6 +1,9 @@
-funfactory is the what makes `playdoh`_ fun. You import it within a Django `manage.py`_ file and it sets up the playdoh environment and configures some
+funfactory is what makes `playdoh`_ fun. You import it within a Django
+`manage.py`_ file and it sets up the playdoh environment and configures some
 settings.
-Any substantial part of playdoh's *core* should be contained within funfactory.  However, it is not a collection of standalone apps.
+
+Any substantial part of playdoh's *core* should be contained within funfactory.
+However, it is not a collection of standalone apps.
 Check out the `playdoh docs`_ for a complete user guide.
 
 .. _`playdoh`: https://github.com/mozilla/playdoh
