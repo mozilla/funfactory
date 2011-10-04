@@ -101,6 +101,19 @@ PROD_DETAILS_DIR = path('lib/product_details_json')
 
 LANGUAGES = lazy(lazy_langs, dict)()
 
+# Tells the extract script what files to look for L10n in and what function
+# handles the extraction. The Tower library expects this.
+DOMAIN_METHODS = {
+    'messages': [
+        ('apps/**.py',
+            'tower.management.commands.extract.extract_tower_python'),
+        ('apps/**/templates/**.html',
+            'tower.management.commands.extract.extract_tower_template'),
+        ('templates/**.html',
+            'tower.management.commands.extract.extract_tower_template'),
+    ],
+}
+
 # Paths that don't require a locale code in the URL.
 SUPPORTED_NONLOCALES = ['media']
 
@@ -213,30 +226,6 @@ INSTALLED_APPS = (
     # L10n
     'product_details',
 )
-
-# Tells the extract script what files to look for L10n in and what function
-# handles the extraction. The Tower library expects this.
-DOMAIN_METHODS = {
-    'messages': [
-        ('apps/**.py',
-            'tower.management.commands.extract.extract_tower_python'),
-        ('**/templates/**.html',
-            'tower.management.commands.extract.extract_tower_template'),
-    ],
-
-    ## Use this if you have localizable HTML files:
-    #'lhtml': [
-    #    ('**/templates/**.lhtml',
-    #        'tower.management.commands.extract.extract_tower_template'),
-    #],
-
-    ## Use this if you have localizable JS files:
-    #'javascript': [
-        # Make sure that this won't pull in strings from external libraries you
-        # may use.
-    #    ('media/js/**.js', 'javascript'),
-    #],
-}
 
 # Path to Java. Used for compress_assets.
 JAVA_BIN = '/usr/bin/java'
