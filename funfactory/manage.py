@@ -105,6 +105,13 @@ def validate_settings(settings):
         else:
             raise ImproperlyConfigured(msg)
 
+    if getattr(settings, 'SESSION_COOKIE_SECURE', None) is None:
+        msg = ('settings.SESSION_COOKIE_SECURE should be set to True; '
+               'otherwise, your session ids can be intercepted over HTTP!')
+        if settings.DEBUG:
+            warnings.warn(msg)
+        else:
+            raise ImproperlyConfigured(msg)
 
 def _not_setup():
     raise EnvironmentError(

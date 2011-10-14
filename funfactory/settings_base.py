@@ -230,6 +230,11 @@ INSTALLED_APPS = (
 # Path to Java. Used for compress_assets.
 JAVA_BIN = '/usr/bin/java'
 
+# Sessions
+#
+# By default, be at least somewhat secure with our session cookies.
+SESSION_COOKIE_HTTPONLY = True
+
 ## Auth
 PWD_ALGORITHM = 'sha512'  # recommended: 'bcrypt'
 HMAC_KEYS = {  # for bcrypt only
