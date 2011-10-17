@@ -115,7 +115,7 @@ DOMAIN_METHODS = {
 }
 
 # Paths that don't require a locale code in the URL.
-SUPPORTED_NONLOCALES = ['media']
+SUPPORTED_NONLOCALES = ['media', 'admin']
 
 
 ## Media and templates.
