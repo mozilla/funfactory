@@ -19,9 +19,10 @@ and type the ``tox`` command.  The ``tox.ini`` will handle the rest.
 
 .. _`tox`: http://tox.readthedocs.org/
 
-Note: if you supply a different playdoh remote URL or a different
-branch or something, remember to delete the ``.playdoh/`` directory
-between tests for a clean slate.
+.. note::
+    if you supply a different playdoh remote URL or a different
+    branch or something, remember to delete the ``.playdoh/`` directory
+    between tests for a clean slate.
 
 To try out cutting edge funfactory features in a real playdoh app, you can use
 the develop command to install a link to the files within your virtualenv::

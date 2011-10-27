@@ -16,9 +16,9 @@ shell = partial(check_call, shell=True)
 DB_USER = os.environ.get('FF_DB_USER', 'root')
 DB_PASS = os.environ.get('FF_DB_PASS', '')
 DB_NAME = os.environ.get('FF_DB_NAME', '_funfactory_test')
-FF_PLAYDOH_REMOTE = os.environ.get('PLAYDOH_REMOTE',
+FF_PLAYDOH_REMOTE = os.environ.get('FF_PLAYDOH_REMOTE',
                                    'git://github.com/mozilla/playdoh.git')
-FF_PLAYDOH_BRANCH = os.environ.get('PLAYDOH_BRANCH', 'base')
+FF_PLAYDOH_BRANCH = os.environ.get('FF_PLAYDOH_BRANCH', 'base')
 
 
 def test_root():
@@ -72,7 +72,7 @@ class FunFactoryTests(Plugin):
                                     "'NAME': '%s'" % DB_NAME)
             new_st = new_st.replace("SECRET_KEY = ''",
                                     "SECRET_KEY = 'testinglolz'")
-            new_st = new_st + "\nimport base\nINSTALLED_APPS = list(base.INSTALLED_APPS) + " \
+            new_st = new_st + "\nfrom . import base\nINSTALLED_APPS = list(base.INSTALLED_APPS) + " \
                      "['django.contrib.admin']\n"
 
         with open(st, 'w') as f:
