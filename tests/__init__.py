@@ -16,6 +16,9 @@ shell = partial(check_call, shell=True)
 DB_USER = os.environ.get('FF_DB_USER', 'root')
 DB_PASS = os.environ.get('FF_DB_PASS', '')
 DB_NAME = os.environ.get('FF_DB_NAME', '_funfactory_test')
+FF_PLAYDOH_REMOTE = os.environ.get('PLAYDOH_REMOTE',
+                                   'git://github.com/mozilla/playdoh.git')
+FF_PLAYDOH_BRANCH = os.environ.get('PLAYDOH_BRANCH', 'base')
 
 
 def test_root():
@@ -44,18 +47,19 @@ class FunFactoryTests(Plugin):
             if not os.path.exists(container):
                 os.mkdir(container)
             check_call(['git', 'clone', '--recursive',
-                        'git://github.com/mozilla/playdoh.git',
+                        '--branch', FF_PLAYDOH_BRANCH,
+                        FF_PLAYDOH_REMOTE,
                         PLAYDOH])
         else:
             proj_sh = partial(shell, cwd=PLAYDOH)
-            proj_sh('git pull origin base')
+            proj_sh('git pull origin %s' % FF_PLAYDOH_BRANCH)
             proj_sh('git submodule sync -q')
             proj_sh('git submodule update --init --recursive')
 
-        st = os.path.join(PLAYDOH, 'settings_local.py')
+        st = os.path.join(PLAYDOH, 'settings', 'local.py')
         if os.path.exists(st):
             os.unlink(st)
-        shutil.copy(os.path.join(PLAYDOH, 'settings_local.py-dist'),
+        shutil.copy(os.path.join(PLAYDOH, 'settings', 'local.py-dist'),
                     st)
 
         with open(st, 'r') as f:
@@ -68,7 +72,7 @@ class FunFactoryTests(Plugin):
                                     "'NAME': '%s'" % DB_NAME)
             new_st = new_st.replace("SECRET_KEY = ''",
                                     "SECRET_KEY = 'testinglolz'")
-            new_st = new_st + "\nINSTALLED_APPS = list(INSTALLED_APPS) + " \
+            new_st = new_st + "\nimport base\nINSTALLED_APPS = list(base.INSTALLED_APPS) + " \
                      "['django.contrib.admin']\n"
 
         with open(st, 'w') as f:
