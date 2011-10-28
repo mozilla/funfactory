@@ -60,7 +60,7 @@ def setup_environ(manage_file, settings=None):
             sys.path.remove(item)
     sys.path[:0] = new_sys_path
 
-    from django.core.management import execute_manager, setup_environ
+    from django.core.management import execute_manager
     if not settings:
         if os.path.isfile(os.path.join(ROOT, 'settings_local.py')):
             import settings_local as settings
@@ -71,29 +71,6 @@ def setup_environ(manage_file, settings=None):
             import settings
     current_settings = settings
     validate_settings(settings)
-
-    # If we want to use django settings anywhere, we need to set up the
-    # required environment variables.
-    setup_environ(settings)
-
-    # Import for side-effect: configures logging handlers.
-    # pylint: disable-msg=W0611
-    import log_settings
-    # Monkey-patch django forms to avoid having to use Jinja2's |safe
-    # everywhere.
-    import safe_django_forms
-    safe_django_forms.monkeypatch()
-
-    # Monkey-patch Django's csrf_protect decorator to use session-based CSRF
-    # tokens:
-    if 'session_csrf' in settings.INSTALLED_APPS:
-        import session_csrf
-        session_csrf.monkeypatch()
-
-    # Configure Celery (optional)
-    if 'djcelery' in settings.INSTALLED_APPS:
-        import djcelery
-        djcelery.setup_loader()
 
 
 def validate_settings(settings):
