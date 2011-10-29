@@ -96,9 +96,6 @@ def lazy_langs():
     return dict([(lang.lower(), product_details.languages[lang]['native'])
                  for lang in langs if lang in product_details.languages])
 
-# Where to store product details etc.
-PROD_DETAILS_DIR = path('lib/product_details_json')
-
 LANGUAGES = lazy(lazy_langs, dict)()
 
 # Tells the extract script what files to look for L10n in and what function
