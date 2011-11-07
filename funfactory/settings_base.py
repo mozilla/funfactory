@@ -21,6 +21,10 @@ MANAGERS = ADMINS
 
 DATABASES = {}  # See settings_local.
 
+SLAVE_DATABASES = []
+
+DATABASE_ROUTERS = ('multidb.PinningMasterSlaveRouter',)
+
 # Site ID is used by Django's Sites framework.
 SITE_ID = 1
 # Logging
@@ -181,6 +185,7 @@ def JINJA_CONFIG():
 
 MIDDLEWARE_CLASSES = (
     'funfactory.middleware.LocaleURLMiddleware',
+    'multidb.middleware.PinningRouterMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
