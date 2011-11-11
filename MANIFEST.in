@@ -1,3 +1,3 @@
 include LICENSE
 include README.rst
-recursive-include funfactory/requirements/*
+recursive-include funfactory/requirements/ *.txt
