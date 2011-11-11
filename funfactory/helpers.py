@@ -5,6 +5,7 @@ import urlparse
 
 from django.conf import settings
 from django.template import defaultfilters
+from django.utils.encoding import smart_str
 from django.utils.html import strip_tags
 
 from jingo import register
@@ -12,12 +13,10 @@ import jinja2
 
 from .urlresolvers import reverse
 
-
 # Yanking filters from Django.
 register.filter(strip_tags)
 register.filter(defaultfilters.timesince)
 register.filter(defaultfilters.truncatewords)
-
 
 
 @register.function
