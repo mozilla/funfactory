@@ -21,10 +21,14 @@ MANAGERS = ADMINS
 
 DATABASES = {}  # See settings_local.
 
+SLAVE_DATABASES = []
+
+DATABASE_ROUTERS = ('multidb.PinningMasterSlaveRouter',)
+
 # Site ID is used by Django's Sites framework.
 SITE_ID = 1
 # Logging
-LOG_LEVEL = logging.DEBUG
+LOG_LEVEL = logging.INFO
 HAS_SYSLOG = True
 SYSLOG_TAG = "http_app_playdoh"  # Change this after you fork.
 LOGGING_CONFIG = None
@@ -95,9 +99,6 @@ def lazy_langs():
     langs = DEV_LANGUAGES if settings.DEV else settings.PROD_LANGUAGES
     return dict([(lang.lower(), product_details.languages[lang]['native'])
                  for lang in langs if lang in product_details.languages])
-
-# Where to store product details etc.
-PROD_DETAILS_DIR = path('lib/product_details_json')
 
 LANGUAGES = lazy(lazy_langs, dict)()
 
@@ -184,6 +185,7 @@ def JINJA_CONFIG():
 
 MIDDLEWARE_CLASSES = (
     'funfactory.middleware.LocaleURLMiddleware',
+    'multidb.middleware.PinningRouterMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
