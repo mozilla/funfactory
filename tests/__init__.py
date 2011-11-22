@@ -89,6 +89,7 @@ class FunFactoryTests(Plugin):
         # For in-process tests:
         wd = os.getcwd()
         os.chdir(PLAYDOH)  # Simulate what happens in a real app.
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
         try:
             manage.setup_environ(os.path.join(PLAYDOH, 'manage.py'))
         finally:
