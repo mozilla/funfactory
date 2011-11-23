@@ -18,9 +18,4 @@ def patch():
         import session_csrf
         session_csrf.monkeypatch()
 
-    # Configure Celery (optional)
-    if 'djcelery' in settings.INSTALLED_APPS:
-        import djcelery
-        djcelery.setup_loader()
-
     logging.debug("Note: funfactory monkey patches executed in %s" % __file__)
