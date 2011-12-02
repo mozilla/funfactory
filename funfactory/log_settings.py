@@ -42,6 +42,10 @@ cfg = {
             'facility': logging.handlers.SysLogHandler.LOG_LOCAL7,
             'formatter': 'prod',
         },
+        'arecibo': {
+            'level': 'ERROR',
+            'class': 'funfactory.log.AreciboHandler',
+        },
         'mail_admins': {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler',
@@ -52,7 +56,8 @@ cfg = {
     },
     'loggers': {
         'django.request': {
-            'handlers': ['mail_admins'],
+            # 'handlers': ['mail_admins', 'arecibo'],
+            'handlers': ['mail_admins', 'arecibo'],
             'level': 'ERROR',
             'propagate': False,
         },
