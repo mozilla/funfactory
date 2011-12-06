@@ -257,6 +257,10 @@ CELERY_RESULT_BACKEND = 'amqp'
 CELERY_IGNORE_RESULT = True
 CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
 
+# Time in seconds before celery.exceptions.SoftTimeLimitExceeded is raised.
+# The task can catch that and recover but should exit ASAP.
+CELERYD_TASK_SOFT_TIME_LIMIT = 60 * 2
+
 # For absolute urls
 try:
     DOMAIN = socket.gethostname()
