@@ -77,17 +77,13 @@ def validate_settings(settings):
     from django.core.exceptions import ImproperlyConfigured
     if settings.SECRET_KEY == '':
         msg = 'settings.SECRET_KEY cannot be blank! Check your local settings'
-        if settings.DEBUG:
-            warnings.warn(msg)
-        else:
+        if not settings.DEBUG:
             raise ImproperlyConfigured(msg)
 
     if getattr(settings, 'SESSION_COOKIE_SECURE', None) is None:
         msg = ('settings.SESSION_COOKIE_SECURE should be set to True; '
                'otherwise, your session ids can be intercepted over HTTP!')
-        if settings.DEBUG:
-            warnings.warn(msg)
-        else:
+        if not settings.DEBUG:
             raise ImproperlyConfigured(msg)
 
 def _not_setup():
