@@ -27,12 +27,19 @@ DATABASE_ROUTERS = ('multidb.PinningMasterSlaveRouter',)
 
 # Site ID is used by Django's Sites framework.
 SITE_ID = 1
-# Logging
+
+## Logging
 LOG_LEVEL = logging.INFO
 HAS_SYSLOG = True
 SYSLOG_TAG = "http_app_playdoh"  # Change this after you fork.
 LOGGING_CONFIG = None
 LOGGING = {}
+
+# CEF Logging
+CEF_PRODUCT = 'Playdoh'
+CEF_VENDOR = 'Mozilla'
+CEF_VERSION = '0'
+CEF_DEVICE_VERSION = '0'
 
 
 ## Internationalization.
