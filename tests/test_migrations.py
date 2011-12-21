@@ -2,12 +2,12 @@ import re
 from os import listdir
 from os.path import join
 
-import test_utils
+from django.test import TestCase
 
 from funfactory.manage import path
 
 
-class MigrationTests(test_utils.TestCase):
+class MigrationTests(TestCase):
     """Sanity checks for the SQL migration scripts."""
 
     @staticmethod

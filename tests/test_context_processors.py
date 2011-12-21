@@ -1,8 +1,7 @@
 import jingo
 import jinja2
 from nose.tools import eq_
-from test_utils import TestCase, RequestFactory
-
+from django.test import TestCase, RequestFactory
 
 class TestContext(TestCase):
 

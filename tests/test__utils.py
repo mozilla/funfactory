@@ -2,7 +2,7 @@ from django.conf import settings
 
 from mock import patch
 from nose.tools import eq_
-from test_utils import TestCase
+from django.test import TestCase
 
 from funfactory.utils import absolutify
 
