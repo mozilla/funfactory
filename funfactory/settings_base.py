@@ -8,8 +8,6 @@ from django.utils.functional import lazy
 
 from .manage import ROOT, path
 
-ROOT_PACKAGE = os.path.basename(ROOT)
-
 # Is this a dev instance?
 DEV = False
 
@@ -73,15 +71,23 @@ LANGUAGE_CODE = 'en-US'
 
 ## Accepted locales
 
+# Tells the product_details module where to find our local JSON files.
+# This ultimately controls how LANGUAGES are constructed.
+PROD_DETAILS_DIR = path('lib/product_details_json')
+
 # On dev instances, the list of accepted locales defaults to the contents of
-# the `locale` directory.  A localizer can add their locale in the l10n
+# the `locale` directory within a project module or, for older Playdoh apps,
+# the root locale directory.  A localizer can add their locale in the l10n
 # repository (copy of which is checked out into `locale`) in order to start
 # testing the localization on the dev server.
+import glob
+import itertools
 try:
     DEV_LANGUAGES = [
-        loc.replace('_', '-') for loc in os.listdir(path('locale'))
-        if (os.path.isdir(path('locale', loc)) and loc != 'templates'
-            and not loc.startswith('.'))
+        os.path.basename(loc).replace('_', '-')
+        for loc in itertools.chain(glob.iglob(ROOT + '/locale/*'),  # old style
+                                   glob.iglob(ROOT + '/*/locale/*'))
+        if (os.path.isdir(loc) and os.path.basename(loc) != 'templates')
     ]
 except OSError:
     DEV_LANGUAGES = ('en-US',)
@@ -113,9 +119,9 @@ LANGUAGES = lazy(lazy_langs, dict)()
 # handles the extraction. The Tower library expects this.
 DOMAIN_METHODS = {
     'messages': [
-        ('apps/**.py',
+        ('**/**.py',
             'tower.management.commands.extract.extract_tower_python'),
-        ('apps/**/templates/**.html',
+        ('**/**/templates/**.html',
             'tower.management.commands.extract.extract_tower_template'),
         ('templates/**.html',
             'tower.management.commands.extract.extract_tower_template'),
@@ -203,16 +209,11 @@ MIDDLEWARE_CLASSES = (
     'mobility.middleware.XMobileMiddleware',
 )
 
-ROOT_URLCONF = '%s.urls' % ROOT_PACKAGE
-
 INSTALLED_APPS = (
     # Local apps
     'funfactory',  # Content common to most playdoh-based apps.
     'jingo_minify',
     'tower',  # for ./manage.py extract (L10n)
-
-    # We need this so the jsi18n view will pick up our locale directory.
-    ROOT_PACKAGE,
 
     # Django contrib apps
     'django.contrib.auth',

@@ -1,25 +1,28 @@
 import os
+import re
 
-extra_setup = {}
-try:
-    from setuptools import setup, find_packages
-except ImportError:
-    from distutils.core import setup
-else:
-    pkgs = find_packages(exclude=['ez_setup', 'tests'])
-    extra_setup.update(dict(packages=pkgs,
-                            install_requires=[]))
+from setuptools import setup, find_packages
+
+
+version = None
+for line in open('./funfactory/__init__.py'):
+    m = re.search('__version__\s*=\s*(.*)', line)
+    if m:
+        version = m.group(1).strip()[1:-1]  # quotes
+        break
+assert version
+
 
 setup(
     name='funfactory',
-    version='1.0',
+    version=version,
     description="Mozilla's Django app skeleton.",
     long_description=open(os.path.join(os.path.dirname(__file__),
                                        'README.rst')).read(),
     author='Kumar McMillan and contributors',
     author_email='',
-    license="Mozilla License",
-    url='http://farmdev.com/projects/fudge/',
+    license="BSD License",
+    url='https://github.com/mozilla/funfactory',
     include_package_data=True,
     classifiers = [
         'Intended Audience :: Developers',
@@ -27,5 +30,9 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.6',
         ],
-    **extra_setup
-    )
+    packages=find_packages(exclude=['tests']),
+    entry_points="""
+    [console_scripts]
+    funfactory = funfactory.cmd:main
+    """,
+    install_requires=[])

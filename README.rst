@@ -6,6 +6,9 @@ Any substantial part of playdoh's *core* should be contained within funfactory.
 However, it is not a collection of standalone apps.
 Check out the `playdoh docs`_ for a complete user guide.
 
+funfactory is also the name of a script that automates the installation of a
+new Playdoh app.  Check out ``funfactory --help`` for more info.
+
 .. _`playdoh`: https://github.com/mozilla/playdoh
 .. _`playdoh docs`: http://playdoh.readthedocs.org/
 .. _`manage.py`: https://github.com/mozilla/playdoh/blob/base/manage.py
