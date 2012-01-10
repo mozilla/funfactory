@@ -2,8 +2,18 @@ funfactory is what makes `playdoh`_ fun. You import it within a Django
 `manage.py`_ file and it sets up the playdoh environment and configures some
 settings.
 
-Any substantial part of playdoh's *core* should be contained within funfactory.
-However, it is not a collection of standalone apps.
+Install
+=======
+
+::
+
+    pip install funfactory
+
+What is it?
+===========
+
+funfactory is the core of `playdoh`_, Mozilla's Django starter kit.
+funfactory is *not* a collection of standalone apps.
 Check out the `playdoh docs`_ for a complete user guide.
 
 funfactory is also the name of a script that automates the installation of a
@@ -53,4 +63,4 @@ Here are some environment variables that are acknowledged by the test suite:
   Git qualified URL for playdoh repo. Defaults to ``git://github.com/mozilla/playdoh.git``.
 
 **FF_PLAYDOH_BRANCH**
-  Default branch to pull and update. Defaults to ``base``.
+  Default branch to pull and update. Defaults to ``master``.
