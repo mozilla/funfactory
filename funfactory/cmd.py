@@ -28,8 +28,6 @@ log = logging.getLogger(__name__)
 def clone_repo(pkg, dest, repo, repo_dest, branch):
     """Clone the Playdoh repo into a custom path."""
     git(['clone', '--recursive', '-b', branch, repo, repo_dest])
-    with dir_path(repo_dest):
-        git(['checkout', '-b', 'master'])
 
 
 def init_pkg(pkg, repo_dest):
@@ -253,7 +251,7 @@ def main():
                   default='git://github.com/mozilla/playdoh.git')
     ps.add_option('-b', '--branch',
                   help='Repository branch to clone. Default: %default',
-                  default='base')
+                  default='master')
     ps.add_option('--repo-dest',
                   help='Clone repository into this directory. '
                        'Default: DEST/PKG')
