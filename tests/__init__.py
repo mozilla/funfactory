@@ -18,7 +18,7 @@ DB_PASS = os.environ.get('FF_DB_PASS', '')
 DB_NAME = os.environ.get('FF_DB_NAME', '_funfactory_test')
 FF_PLAYDOH_REMOTE = os.environ.get('FF_PLAYDOH_REMOTE',
                                    'git://github.com/mozilla/playdoh.git')
-FF_PLAYDOH_BRANCH = os.environ.get('FF_PLAYDOH_BRANCH', 'base')
+FF_PLAYDOH_BRANCH = os.environ.get('FF_PLAYDOH_BRANCH', 'master')
 
 
 def test_root():
@@ -56,10 +56,11 @@ class FunFactoryTests(Plugin):
             proj_sh('git submodule sync -q')
             proj_sh('git submodule update --init --recursive')
 
-        st = os.path.join(PLAYDOH, 'settings', 'local.py')
+        st = os.path.join(PLAYDOH, 'project', 'settings', 'local.py')
         if os.path.exists(st):
             os.unlink(st)
-        shutil.copy(os.path.join(PLAYDOH, 'settings', 'local.py-dist'),
+        shutil.copy(os.path.join(PLAYDOH, 'project', 'settings',
+                                 'local.py-dist'),
                     st)
 
         with open(st, 'r') as f:
@@ -89,7 +90,7 @@ class FunFactoryTests(Plugin):
         # For in-process tests:
         wd = os.getcwd()
         os.chdir(PLAYDOH)  # Simulate what happens in a real app.
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
         try:
             manage.setup_environ(os.path.join(PLAYDOH, 'manage.py'))
         finally:

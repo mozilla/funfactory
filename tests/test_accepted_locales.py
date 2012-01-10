@@ -15,20 +15,20 @@ class AcceptedLocalesTest(test_utils.TestCase):
     DEV_LANGUAGES or PROD_LANGUAGES should be used.
 
     """
-    locale = path('locale')
-    locale_bkp = path('locale_bkp')
+    locale = path('project/locale')
+    locale_bkp = path('project/locale_bkp')
 
     @classmethod
     def setup_class(cls):
         """Create a directory structure for locale/.
 
-        Back up the existing locale/ directory and create the following 
+        Back up the existing project/locale/ directory and create the following
         hierarchy in its place:
 
-            - locale/en-US/LC_MESSAGES
-            - locale/fr/LC_MESSAGES
-            - locale/templates/LC_MESSAGES
-            - locale/empty_file
+            - project/locale/en-US/LC_MESSAGES
+            - project/locale/fr/LC_MESSAGES
+            - project/locale/templates/LC_MESSAGES
+            - project/locale/empty_file
 
         Also, set PROD_LANGUAGES to ('en-US',).
 
