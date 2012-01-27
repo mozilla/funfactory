@@ -255,6 +255,9 @@ def main():
     ps.add_option('--repo-dest',
                   help='Clone repository into this directory. '
                        'Default: DEST/PKG')
+    ps.add_option('--venv',
+                  help='Path to an existing virtualenv you want to use. '
+                       'Otherwise, a new one will be created for you.')
     ps.add_option('-P', '--python',
                   help='Python interpreter to use in your virtualenv. '
                        'Default: which %default',
@@ -293,7 +296,10 @@ def main():
                                                          options.pkg))
     clone_repo(options.pkg, options.dest, options.repo, options.repo_dest,
                options.branch)
-    venv = create_virtualenv(options.pkg, options.repo_dest, options.python)
+    if options.venv:
+        venv = options.venv
+    else:
+        venv = create_virtualenv(options.pkg, options.repo_dest, options.python)
     install_reqs(venv, options.repo_dest)
     init_pkg(options.pkg, options.repo_dest)
     create_settings(options.pkg, options.repo_dest, options.db_user,
