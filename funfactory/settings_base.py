@@ -8,6 +8,12 @@ from django.utils.functional import lazy
 
 from .manage import ROOT, path
 
+# For backwards compatability, (projects built based on cloning playdoh)
+# we still have to have a ROOT_URLCONF.
+# For new-style playdoh projects this will be overridden automatically
+# by the new installer
+ROOT_URLCONF = '%s.urls' % os.path.basename(ROOT)
+
 # Is this a dev instance?
 DEV = False
 
