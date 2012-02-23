@@ -1,6 +1,7 @@
 # Django stuff
 -e git://github.com/django/django@1.3.X#egg=django
 -e git://github.com/jbalogh/django-multidb-router.git#egg=django-multidb-router
+-e git://github.com/jsocol/django-cronjobs.git#egg=django-cronjobs
 
 # Forms
 -e git://github.com/mozilla/happyforms.git#egg=happyforms
