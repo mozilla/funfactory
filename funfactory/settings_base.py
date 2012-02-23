@@ -220,7 +220,9 @@ INSTALLED_APPS = (
     'funfactory',  # Content common to most playdoh-based apps.
     'jingo_minify',
     'tower',  # for ./manage.py extract (L10n)
-
+    'cronjobs',  # for ./manage.py cron * cmd line tasks
+    
+    
     # Django contrib apps
     'django.contrib.auth',
     'django_sha2',  # Load after auth to monkey-patch it.
