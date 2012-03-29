@@ -17,5 +17,7 @@ def patch():
     if 'session_csrf' in settings.INSTALLED_APPS:
         import session_csrf
         session_csrf.monkeypatch()
+        from . import admin
+        admin.monkeypatch()
 
     logging.debug("Note: funfactory monkey patches executed in %s" % __file__)

@@ -6,12 +6,16 @@ from django.test import TestCase
 from mock import patch
 from session_csrf import ANON_COOKIE
 
-from funfactory.admin import site
+from django.contrib import admin
+
+urlpatterns = None
 
 
-urlpatterns = patterns('',
-    (r'^admin/$', site.urls),
-)
+def setup():
+    global urlpatterns
+    urlpatterns = patterns('',
+        (r'^admin/$', admin.site.urls),
+    )
 
 
 class FakeLoader(BaseLoader):
