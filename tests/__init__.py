@@ -97,3 +97,8 @@ class FunFactoryTests(Plugin):
             os.chdir(wd)
         # Puts path back to this dev version of funfactory:
         sys.path.insert(0, ROOT)
+
+        # simulate what django does, which is to import the root urls.py
+        # once everything has been set up (e.g. setup_environ())
+        from funfactory.monkeypatches import patch
+        patch()
