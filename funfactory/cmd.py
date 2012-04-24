@@ -291,6 +291,8 @@ def main():
     if not re.match('[a-zA-Z0-9_]+', options.pkg):
         ps.error('Package name %r can only contain letters, numbers, and '
                  'underscores' % options.pkg)
+    if not find_executable('mysql_config'):
+        ps.error('Cannot find mysql_config. Please install MySQL!')
     if not options.repo_dest:
         options.repo_dest = os.path.abspath(os.path.join(options.dest,
                                                          options.pkg))
