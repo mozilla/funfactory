@@ -221,8 +221,8 @@ INSTALLED_APPS = (
     'jingo_minify',
     'tower',  # for ./manage.py extract (L10n)
     'cronjobs',  # for ./manage.py cron * cmd line tasks
-    
-    
+
+
     # Django contrib apps
     'django.contrib.auth',
     'django_sha2',  # Load after auth to monkey-patch it.
@@ -276,6 +276,10 @@ CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
 # Time in seconds before celery.exceptions.SoftTimeLimitExceeded is raised.
 # The task can catch that and recover but should exit ASAP.
 CELERYD_TASK_SOFT_TIME_LIMIT = 60 * 2
+
+## Arecibo
+# when ARECIBO_SERVER_URL is set, it can use celery or the regular wrapper
+ARECIBO_USES_CELERY = True
 
 # For absolute urls
 try:

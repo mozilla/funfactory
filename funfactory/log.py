@@ -13,7 +13,10 @@ class AreciboHandler(logging.Handler):
         arecibo = getattr(settings, 'ARECIBO_SERVER_URL', '')
 
         if arecibo and hasattr(record, 'request'):
-            from django_arecibo.tasks import post
+            if getattr(settings, 'ARECIBO_USES_CELERY', False):
+                from django_arecibo.tasks import post
+            else:
+                from django_arecibo.wrapper import post
             post(record.request, 500)
 
 
