@@ -54,26 +54,18 @@ def init_pkg(pkg, repo_dest):
          try:
              # For local development in a virtualenv:
         diff --git a/project/settings/base.py b/project/settings/base.py
-        index cd69508..c8e7e34 100644
+        index 312f280..c75e673 100644
         --- a/project/settings/base.py
         +++ b/project/settings/base.py
-        @@ -24,13 +24,13 @@ MINIFY_BUNDLES = {
-         }
+        @@ -7,7 +7,7 @@ from funfactory.settings_base import *
+         # If you did not install Playdoh with the funfactory installer script
+         # you may need to edit this value. See the docs about installing from a
+         # clone.
+        -PROJECT_MODULE = 'project'
+        +PROJECT_MODULE = '%(pkg)s'
 
-         # Defines the views served for root URLs.
-        -ROOT_URLCONF = 'project.urls'
-        +ROOT_URLCONF = '%(pkg)s.urls'
-
-         INSTALLED_APPS = list(INSTALLED_APPS) + [
-             # Application base, containing global templates.
-        -    'project.base',
-        +    '%(pkg)s.base',
-             # Example code. Can (and should) be removed for actual projects.
-        -    'project.examples',
-        +    '%(pkg)s.examples',
-         ]
-
-
+         # Bundles is a dictionary of two dictionaries, css and js, which list css files
+         # and js files that can be bundled together by the minify app.
         diff --git a/setup.py b/setup.py
         index 58dbd93..9a38628 100644
         --- a/setup.py

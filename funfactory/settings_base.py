@@ -125,9 +125,11 @@ LANGUAGES = lazy(lazy_langs, dict)()
 # handles the extraction. The Tower library expects this.
 DOMAIN_METHODS = {
     'messages': [
-        ('**/**.py',
+        # Searching apps dirs only exists for historic playdoh apps.
+        # See playdoh's base settings for how message paths are set.
+        ('apps/**.py',
             'tower.management.commands.extract.extract_tower_python'),
-        ('**/**/templates/**.html',
+        ('apps/**/templates/**.html',
             'tower.management.commands.extract.extract_tower_template'),
         ('templates/**.html',
             'tower.management.commands.extract.extract_tower_template'),
