@@ -48,7 +48,7 @@ def setup_environ(manage_file, settings=None, more_pythonic=False):
                       "level __init__.py and apps directories. This is error "
                       "prone and fights the Zen of Python. "
                       "See http://playdoh.readthedocs.org/en/latest/"
-                      "upgrading.html.")
+                      "getting-started/upgrading.html")
         # Give precedence to your app's parent dir, which contains __init__.py
         sys.path.append(os.path.abspath(os.path.join(ROOT, os.pardir)))
 
