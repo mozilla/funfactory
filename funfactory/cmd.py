@@ -292,6 +292,9 @@ def main():
                options.branch)
     if options.venv:
         venv = options.venv
+    elif os.environ.get('VIRTUAL_ENV'):
+        venv = os.environ['VIRTUAL_ENV']
+        log.info('Using existing virtualenv in %s' % venv)
     else:
         venv = create_virtualenv(options.pkg, options.repo_dest, options.python)
     install_reqs(venv, options.repo_dest)
