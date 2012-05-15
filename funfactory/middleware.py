@@ -6,7 +6,9 @@ the locale codes.
 """
 
 import urllib
+from warnings import warn
 
+from django.conf import settings
 from django.http import HttpResponsePermanentRedirect
 from django.utils.encoding import smart_str
 
@@ -15,12 +17,19 @@ import tower
 from . import urlresolvers
 from .helpers import urlparams
 
+
 class LocaleURLMiddleware(object):
     """
     1. Search for the locale.
     2. Save it in the request.
     3. Strip them from the URL.
     """
+
+    def __init__(self):
+        if not settings.USE_I18N or not settings.USE_L10N:
+            warn("USE_I18N or USE_L10N is False but LocaleURLMiddleware is "
+                 "loaded. Consider removing funfactory.middleware."
+                 "LocaleURLMiddleware from your MIDDLEWARE_CLASSES setting.")
 
     def process_request(self, request):
         prefixer = urlresolvers.Prefixer(request)
