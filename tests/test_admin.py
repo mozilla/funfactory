@@ -1,12 +1,13 @@
 from django.conf import settings
 from django.conf.urls.defaults import patterns
+from django.contrib import admin
+import django.contrib.admin.sites
 from django.template.loader import BaseLoader
 from django.test import TestCase
 
-from mock import patch
+from mock import patch, Mock
 from session_csrf import ANON_COOKIE
 
-from django.contrib import admin
 
 urlpatterns = None
 
@@ -33,7 +34,9 @@ class FakeLoader(BaseLoader):
 class SessionCsrfAdminTests(TestCase):
     urls = 'tests.test_admin'
 
-    def test_login_has_csrf(self):
+    @patch.object(django.contrib.admin.sites, 'reverse')
+    def test_login_has_csrf(self, reverse):
+        reverse = Mock()
         self.client.get('admin/', follow=True)
         assert self.client.cookies.get(ANON_COOKIE), (
             "Anonymous CSRF Cookie not set.")

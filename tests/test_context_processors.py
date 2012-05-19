@@ -3,6 +3,11 @@ import jinja2
 from nose.tools import eq_
 from django.test import TestCase, RequestFactory
 
+from mock import patch
+
+import funfactory.context_processors
+
+
 class TestContext(TestCase):
 
     def setUp(self):
@@ -23,7 +28,9 @@ class TestContext(TestCase):
     def test_languages(self):
         eq_(self.render("{{ LANGUAGES['en-us'] }}"), 'English (US)')
 
-    def test_languages(self):
+    @patch.object(funfactory.context_processors, 'translation')
+    def test_languages(self, translation):
+        translation.get_language.return_value = 'en-US'
         eq_(self.render("{{ LANG }}"), 'en-US')
 
     def test_lang_dir(self):
