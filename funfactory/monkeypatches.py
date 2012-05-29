@@ -31,6 +31,11 @@ def patch():
         from . import admin
         admin.monkeypatch()
 
+    if 'compressor' in settings.INSTALLED_APPS:
+        import jingo
+        from compressor.contrib.jinja2ext import CompressorExtension
+        jingo.env.add_extension(CompressorExtension)
+
     logging.debug("Note: funfactory monkey patches executed in %s" % __file__)
 
     # prevent it from being run again later

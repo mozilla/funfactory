@@ -4,6 +4,7 @@ import urllib
 import urlparse
 
 from django.conf import settings
+from django.contrib.staticfiles.storage import staticfiles_storage
 from django.template import defaultfilters
 from django.utils.encoding import smart_str
 from django.utils.html import strip_tags
@@ -64,3 +65,8 @@ def _urlencode(items):
 def urlencode(txt):
     """Url encode a path."""
     return urllib.quote_plus(txt)
+
+
+@register.function
+def static(path):
+    return staticfiles_storage.url(path)

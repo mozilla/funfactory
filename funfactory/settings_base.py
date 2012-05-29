@@ -188,6 +188,25 @@ TEMPLATE_DIRS = (
     path('templates'),
 )
 
+# Storage of static files
+COMPRESS_ROOT = STATIC_ROOT
+COMPRESS_CSS_FILTERS = (
+    'compressor.filters.css_default.CssAbsoluteFilter',
+    'compressor.filters.cssmin.CSSMinFilter'
+)
+COMPRESS_PRECOMPILERS = (
+    #('text/coffeescript', 'coffee --compile --stdio'),
+    ('text/less', 'lessc {infile} {outfile}'),
+    #('text/x-sass', 'sass {infile} {outfile}'),
+    #('text/x-scss', 'sass --scss {infile} {outfile}'),
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+
 def JINJA_CONFIG():
     import jinja2
     from django.conf import settings
@@ -225,7 +244,8 @@ MIDDLEWARE_CLASSES = (
 INSTALLED_APPS = (
     # Local apps
     'funfactory',  # Content common to most playdoh-based apps.
-    'jingo_minify',
+    'compressor',
+
     'tower',  # for ./manage.py extract (L10n)
     'cronjobs',  # for ./manage.py cron * cmd line tasks
     'django_browserid',
