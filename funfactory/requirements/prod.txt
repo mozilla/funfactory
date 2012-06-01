@@ -3,6 +3,10 @@ Django==1.4
 -e git://github.com/jbalogh/django-multidb-router.git#egg=django-multidb-router
 -e git://github.com/jsocol/django-cronjobs.git#egg=django-cronjobs
 
+# BrowserID
+django-browserid==0.5.1
+requests==0.13.0
+
 # Forms
 -e git://github.com/mozilla/happyforms.git#egg=happyforms
 

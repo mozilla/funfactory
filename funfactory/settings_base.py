@@ -228,6 +228,7 @@ INSTALLED_APPS = (
     'jingo_minify',
     'tower',  # for ./manage.py extract (L10n)
     'cronjobs',  # for ./manage.py cron * cmd line tasks
+    'django_browserid',
 
 
     # Django contrib apps
