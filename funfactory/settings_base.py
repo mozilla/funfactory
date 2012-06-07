@@ -262,16 +262,20 @@ JAVA_BIN = '/usr/bin/java'
 SESSION_COOKIE_HTTPONLY = True
 
 ## Auth
+# The first hasher in this list will be used for new passwords.
+# Any other hasher in the list can be used for existing passwords.
+# Playdoh ships with Bcrypt+HMAC by default because it's the most secure.
+# To use bcrypt, fill in a secret HMAC key in your local settings.
 BASE_PASSWORD_HASHERS = (
-    # recommended: 'django_sha2.hashers.BcryptHMACCombinedPasswordVerifier',
-    #'django_sha2.hashers.SHA512PasswordHasher',
+    'django_sha2.hashers.BcryptHMACCombinedPasswordVerifier',
+    'django_sha2.hashers.SHA512PasswordHasher',
     'django_sha2.hashers.SHA256PasswordHasher',
     'django.contrib.auth.hashers.SHA1PasswordHasher',
     'django.contrib.auth.hashers.MD5PasswordHasher',
     'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',
 )
 HMAC_KEYS = {  # for bcrypt only
-    #'2011-01-01': 'cheesecake',
+    #'2012-06-06': 'cheesecake',
 }
 
 from django_sha2 import get_password_hashers

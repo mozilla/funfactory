@@ -8,11 +8,12 @@ Installs a skeleton Django app based on Mozilla's Playdoh.
 5. Creates a local settings file
 Read more about it here: http://playdoh.readthedocs.org/
 """
+import base64
 from contextlib import contextmanager
+from datetime import datetime
 import logging
 import optparse
 import os
-import random
 import re
 import shutil
 import subprocess
@@ -85,6 +86,20 @@ def init_pkg(pkg, repo_dest):
         git(['commit', '-a', '-m', 'Renamed project module to %s' % pkg])
 
 
+def generate_key(byte_length):
+    """Return a true random ascii string that is byte_length long.
+
+    The resulting key is suitable for cryptogrpahy.
+    """
+    if byte_length < 32:  # at least 256 bit
+        raise ValueError('um, %s is probably not long enough for cryptography'
+                         % byte_length)
+    key = os.urandom(byte_length)
+    key = base64.b64encode(key).rstrip('=')  # strip off padding
+    key = key[0:byte_length]
+    return key
+
+
 def create_settings(pkg, repo_dest, db_user, db_name, db_password, db_host,
                     db_port):
     """
@@ -92,23 +107,22 @@ def create_settings(pkg, repo_dest, db_user, db_name, db_password, db_host,
 
     This also fills in database settings and generates a secret key, etc.
     """
-    sk = ''.join([
-        random.choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)')
-        for i in range(50)])
     vars = {'pkg': pkg,
             'db_user': db_user,
             'db_name': db_name,
             'db_password': db_password or '',
             'db_host': db_host or '',
             'db_port': db_port or '',
-            'secret_key': sk}
+            'hmac_date': datetime.now().strftime('%Y-%m-%d'),
+            'hmac_key': generate_key(40),
+            'secret_key': generate_key(40)}
     with dir_path(repo_dest):
         shutil.copyfile('%s/settings/local.py-dist' % pkg,
                         '%s/settings/local.py' % pkg)
         patch("""\
             --- a/%(pkg)s/settings/local.py
             +++ b/%(pkg)s/settings/local.py
-            @@ -8,11 +8,11 @@
+            @@ -9,11 +9,11 @@ from . import base
              DATABASES = {
                  'default': {
                      'ENGINE': 'django.db.backends.mysql',
@@ -125,8 +139,16 @@ def create_settings(pkg, repo_dest, db_user, db_name, db_password, db_host,
                      'OPTIONS': {
                          'init_command': 'SET storage_engine=InnoDB',
                          'charset' : 'utf8',
-            @@ -52,7 +52,7 @@ DEV = True
-             # }
+            @@ -51,14 +51,14 @@ DEV = True
+             # Playdoh ships with Bcrypt+HMAC by default because it's the most secure.
+             # To use bcrypt, fill in a secret HMAC key. It cannot be blank.
+             HMAC_KEYS = {
+            -    #'2012-06-06': 'some secret',
+            +    '%(hmac_date)s': '%(hmac_key)s',
+             }
+
+             from django_sha2 import get_password_hashers
+             PASSWORD_HASHERS = get_password_hashers(base.BASE_PASSWORD_HASHERS, HMAC_KEYS)
 
              # Make this unique, and don't share it with anybody.  It cannot be blank.
             -SECRET_KEY = ''

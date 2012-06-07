@@ -87,6 +87,12 @@ def setup_environ(manage_file, settings=None, more_pythonic=False):
 
 
 def validate_settings(settings):
+    """
+    Raise an error in prod if we see any insecure settings.
+
+    This used to warn during development but that was changed in
+    71718bec324c2561da6cc3990c927ee87362f0f7
+    """
     from django.core.exceptions import ImproperlyConfigured
     if settings.SECRET_KEY == '':
         msg = 'settings.SECRET_KEY cannot be blank! Check your local settings'
@@ -99,33 +105,31 @@ def validate_settings(settings):
         if not settings.DEBUG:
             raise ImproperlyConfigured(msg)
 
+    hmac = getattr(settings, 'HMAC_KEYS', {})
+    if not len(hmac.keys()):
+        msg = 'settings.HMAC_KEYS cannot be empty! Check your local settings'
+        if not settings.DEBUG:
+            raise ImproperlyConfigured(msg)
 
-def import_mod_by_name(name):
-    obj_path = adjusted_path = name
-    done = False
-    exc = None
-    at_top_level = False
-    while not done:
-        try:
-            obj = __import__(adjusted_path)
-            done = True
-        except ImportError:
-            # Handle paths that traveerse object attributes.
-            # Such as: smtplib.SMTP.connect
-            #          smtplib <- module to import
-            adjusted_path = adjusted_path.rsplit('.', 1)[0]
-            if not exc:
-                exc = sys.exc_info()
-            if at_top_level:
-                # We're at the top level module and it doesn't exist.
-                # Raise the first exception since it will make more sense:
-                etype, val, tb = exc
-                raise etype, val, tb
-            if not adjusted_path.count('.'):
-                at_top_level = True
-    for part in obj_path.split('.')[1:]:
-        obj = getattr(obj, part)
-    return obj
+
+def import_mod_by_name(target):
+    # stolen from mock :)
+    components = target.split('.')
+    import_path = components.pop(0)
+    thing = __import__(import_path)
+
+    for comp in components:
+        import_path += ".%s" % comp
+        thing = _dot_lookup(thing, comp, import_path)
+    return thing
+
+
+def _dot_lookup(thing, comp, import_path):
+    try:
+        return getattr(thing, comp)
+    except AttributeError:
+        __import__(import_path)
+        return getattr(thing, comp)
 
 
 def _not_setup():
