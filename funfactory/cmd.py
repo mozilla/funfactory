@@ -87,17 +87,18 @@ def init_pkg(pkg, repo_dest):
 
 
 def generate_key(byte_length):
-    """Return a true random ascii string that is byte_length long.
+    """Return a true random ascii string containing byte_length of randomness.
 
     The resulting key is suitable for cryptogrpahy.
+    The key will be hex encoded which means it will be twice as long
+    as byte_length, i.e. 40 random bytes yields an 80 byte string.
+
+    byte_length must be at least 32.
     """
     if byte_length < 32:  # at least 256 bit
         raise ValueError('um, %s is probably not long enough for cryptography'
                          % byte_length)
-    key = os.urandom(byte_length)
-    key = base64.b64encode(key).rstrip('=')  # strip off padding
-    key = key[0:byte_length]
-    return key
+    return os.urandom(byte_length).encode('hex')
 
 
 def create_settings(pkg, repo_dest, db_user, db_name, db_password, db_host,
@@ -114,8 +115,8 @@ def create_settings(pkg, repo_dest, db_user, db_name, db_password, db_host,
             'db_host': db_host or '',
             'db_port': db_port or '',
             'hmac_date': datetime.now().strftime('%Y-%m-%d'),
-            'hmac_key': generate_key(40),
-            'secret_key': generate_key(40)}
+            'hmac_key': generate_key(32),
+            'secret_key': generate_key(32)}
     with dir_path(repo_dest):
         shutil.copyfile('%s/settings/local.py-dist' % pkg,
                         '%s/settings/local.py' % pkg)
