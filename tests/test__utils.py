@@ -13,18 +13,19 @@ class AbsolutifyTests(TestCase):
 
     def test_basic(self):
         url = utils.absolutify(AbsolutifyTests.ABS_PATH)
-        eq_('http://test.mo.com/some/absolute/path', url)
+        eq_('%s/some/absolute/path' % settings.SITE_URL, url)
 
     @patch.object(settings, 'PROTOCOL', 'https://')
     @patch.object(settings, 'PORT', 443)
     def test_https(self):
         url = utils.absolutify(AbsolutifyTests.ABS_PATH)
-        eq_('https://test.mo.com/some/absolute/path', url)
+        eq_('%s/some/absolute/path' % settings.SITE_URL, url)
 
-    @patch.object(settings, 'PORT', 8000)
+    @patch.object(settings, 'SITE_URL', '')
+    @patch.object(settings, 'PORT', 8009)
     def test_with_port(self):
         url = utils.absolutify(AbsolutifyTests.ABS_PATH)
-        eq_('http://test.mo.com:8000/some/absolute/path', url)
+        eq_('http://test.mo.com:8009/some/absolute/path', url)
 
 
 @patch.object(utils.settings_base, 'INSTALLED_APPS', ('one', 'two', 'three'))
