@@ -334,6 +334,7 @@ JAVA_BIN = '/usr/bin/java'
 #
 # By default, be at least somewhat secure with our session cookies.
 SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = True
 
 ## Auth
 # The first hasher in this list will be used for new passwords.
