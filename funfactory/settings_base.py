@@ -8,6 +8,7 @@ from django.utils.functional import lazy
 
 from .manage import ROOT, path
 
+
 # For backwards compatability, (projects built based on cloning playdoh)
 # we still have to have a ROOT_URLCONF.
 # For new-style playdoh projects this will be overridden automatically
@@ -104,12 +105,14 @@ PROD_LANGUAGES = (
     'en-US',
 )
 
+
 def lazy_lang_url_map():
     from django.conf import settings
     langs = settings.DEV_LANGUAGES if settings.DEV else settings.PROD_LANGUAGES
     return dict([(i.lower(), i) for i in langs])
 
 LANGUAGE_URL_MAP = lazy(lazy_lang_url_map, dict)()
+
 
 # Override Django's built-in with our native names
 def lazy_langs():
@@ -184,6 +187,24 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     #'jingo_minify.helpers.build_ids',
 )
 
+
+def get_template_context_processors(exclude=(), append=(),
+                        current={'processors': TEMPLATE_CONTEXT_PROCESSORS}):
+    """
+    Returns TEMPLATE_CONTEXT_PROCESSORS without the processors listed in
+    exclude and with the processors listed in append.
+
+    The use of a mutable dict is intentional, in order to preserve the state of
+    the TEMPLATE_CONTEXT_PROCESSORS tuple across multiple settings files.
+    """
+
+    current['processors'] = tuple(
+        [p for p in current['processors'] if p not in exclude]
+    ) + tuple(append)
+
+    return current['processors']
+
+
 TEMPLATE_DIRS = (
     path('templates'),
 )
@@ -206,6 +227,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 )
+
 
 def JINJA_CONFIG():
     import jinja2
@@ -241,6 +263,23 @@ MIDDLEWARE_CLASSES = (
     'mobility.middleware.XMobileMiddleware',
 )
 
+
+def get_middleware(exclude=(), append=(),
+                   current={'middleware': MIDDLEWARE_CLASSES}):
+    """
+    Returns MIDDLEWARE_CLASSES without the middlewares listed in exclude and
+    with the middlewares listed in append.
+
+    The use of a mutable dict is intentional, in order to preserve the state of
+    the MIDDLEWARE_CLASSES tuple across multiple settings files.
+    """
+
+    current['middleware'] = tuple(
+        [m for m in current['middleware'] if m not in exclude]
+    ) + tuple(append)
+    return current['middleware']
+
+
 INSTALLED_APPS = (
     # Local apps
     'funfactory',  # Content common to most playdoh-based apps.
@@ -272,6 +311,21 @@ INSTALLED_APPS = (
     # L10n
     'product_details',
 )
+
+
+def get_apps(exclude=(), append=(), current={'apps': INSTALLED_APPS}):
+    """
+    Returns INSTALLED_APPS without the apps listed in exclude and with the apps
+    listed in append.
+
+    The use of a mutable dict is intentional, in order to preserve the state of
+    the INSTALLED_APPS tuple across multiple settings files.
+    """
+
+    current['apps'] = tuple(
+        [a for a in current['apps'] if a not in exclude]
+    ) + tuple(append)
+    return current['apps']
 
 # Path to Java. Used for compress_assets.
 JAVA_BIN = '/usr/bin/java'
