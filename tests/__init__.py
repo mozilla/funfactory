@@ -1,8 +1,7 @@
 from functools import partial
 import os
 import shutil
-import subprocess
-from subprocess import check_call, Popen
+from subprocess import check_call
 import sys
 
 from nose.plugins import Plugin
@@ -11,7 +10,9 @@ from funfactory import manage
 
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-PLAYDOH = os.path.join(ROOT, '.playdoh', 'funtestapp')
+PLAYDOH_ROOT = '.playdoh'
+PLAYDOH = os.path.join(ROOT, PLAYDOH_ROOT, 'funtestapp')
+ENVIRONMENT_NOTE = os.path.join(ROOT, PLAYDOH_ROOT, 'last-env.txt')
 shell = partial(check_call, shell=True)
 DB_USER = os.environ.get('FF_DB_USER', 'root')
 DB_PASS = os.environ.get('FF_DB_PASS', '')
@@ -41,7 +42,21 @@ class FunFactoryTests(Plugin):
         self.enabled = True  # Enables the plugin without a cmd line flag
         self.options = options
 
+    def _write_last_environment(self):
+        with open(ENVIRONMENT_NOTE, 'w') as f:
+            f.write(self._this_environment())
+
+    def _read_last_environment(self):
+        return open(ENVIRONMENT_NOTE).read()
+
+    def _this_environment(self):
+        return FF_PLAYDOH_REMOTE + '\n' + FF_PLAYDOH_BRANCH + '\n'
+
     def begin(self):
+        if os.path.exists(ENVIRONMENT_NOTE):
+            if self._read_last_environment() != self._this_environment():
+                shutil.rmtree(PLAYDOH)
+
         if not os.path.exists(PLAYDOH):
             container = os.path.abspath(os.path.join(PLAYDOH, '..'))
             if not os.path.exists(container):
@@ -51,10 +66,13 @@ class FunFactoryTests(Plugin):
                         FF_PLAYDOH_REMOTE,
                         PLAYDOH])
         else:
+
             proj_sh = partial(shell, cwd=PLAYDOH)
             proj_sh('git pull origin %s' % FF_PLAYDOH_BRANCH)
             proj_sh('git submodule sync -q')
             proj_sh('git submodule update --init --recursive')
+
+        self._write_last_environment()
 
         st = os.path.join(PLAYDOH, 'project', 'settings', 'local.py')
         if os.path.exists(st):
