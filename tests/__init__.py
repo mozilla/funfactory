@@ -55,9 +55,7 @@ class FunFactoryTests(Plugin):
     def begin(self):
         if os.path.exists(ENVIRONMENT_NOTE):
             if self._read_last_environment() != self._this_environment():
-                raise SystemError(
-                    'Environment has changed. Delete %s' % PLAYDOH_ROOT
-                )
+                shutil.rmtree(PLAYDOH)
 
         if not os.path.exists(PLAYDOH):
             container = os.path.abspath(os.path.join(PLAYDOH, '..'))
