@@ -4,7 +4,7 @@ Django==1.4
 -e git://github.com/jsocol/django-cronjobs.git#egg=django-cronjobs
 
 # BrowserID
-django-browserid==0.5.1
+django-browserid==0.7.1
 requests==0.13.0
 
 # Forms
