@@ -2,6 +2,8 @@ from threading import local
 
 from django.conf import settings
 from django.core.urlresolvers import reverse as django_reverse
+from django.utils.encoding import iri_to_uri
+from django.utils.functional import lazy
 from django.utils.translation.trans_real import parse_accept_lang_header
 
 
@@ -27,9 +29,13 @@ def reverse(viewname, urlconf=None, args=None, kwargs=None, prefix=None):
         prefix = prefix or '/'
     url = django_reverse(viewname, urlconf, args, kwargs, prefix)
     if prefixer:
-        return prefixer.fix(url)
-    else:
-        return url
+        url = prefixer.fix(url)
+
+    # Ensure any unicode characters in the URL are escaped.
+    return iri_to_uri(url)
+
+
+reverse_lazy = lazy(reverse, str)
 
 
 def find_supported(test):
