@@ -89,6 +89,7 @@ PROD_DETAILS_DIR = path('lib/product_details_json')
 # testing the localization on the dev server.
 import glob
 import itertools
+DEV_LANGUAGES = None
 try:
     DEV_LANGUAGES = [
         os.path.basename(loc).replace('_', '-')
@@ -97,6 +98,11 @@ try:
         if (os.path.isdir(loc) and os.path.basename(loc) != 'templates')
     ]
 except OSError:
+    pass
+
+# If the locale/ directory isn't there or it's empty, we make sure that
+# we always have at least 'en-US'.
+if not DEV_LANGUAGES:
     DEV_LANGUAGES = ('en-US',)
 
 # On stage/prod, the list of accepted locales is manually maintained.  Only
