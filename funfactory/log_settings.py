@@ -1,5 +1,6 @@
 import logging
 import logging.handlers
+import socket
 
 from django.conf import settings
 
@@ -17,6 +18,11 @@ base_fmt = ('%(name)s:%(levelname)s %(message)s '
             ':%(pathname)s:%(lineno)s')
 use_syslog = settings.HAS_SYSLOG and not settings.DEBUG
 
+if use_syslog:
+    hostname = socket.gethostname()
+else:
+    hostname = 'localhost'
+
 cfg = {
     'version': 1,
     'filters': {},
@@ -29,8 +35,9 @@ cfg = {
         'prod': {
             '()': commonware.log.Formatter,
             'datefmt': '%H:%M:%s',
-            'format': '%s: [%%(REMOTE_ADDR)s] %s' % (settings.SYSLOG_TAG,
-                                                     base_fmt),
+            'format': '%s %s: [%%(REMOTE_ADDR)s] %s' % (hostname,
+                                                        settings.SYSLOG_TAG,
+                                                        base_fmt),
         },
         'cef': {
             '()': cef.SysLogFormatter,
@@ -95,4 +102,3 @@ for logger in cfg['loggers'].values() + [cfg['root']]:
         logger['propagate'] = False
 
 dictconfig.dictConfig(cfg)
-
