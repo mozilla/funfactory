@@ -16,6 +16,7 @@ ENVIRONMENT_NOTE = os.path.join(ROOT, PLAYDOH_ROOT, 'last-env.txt')
 shell = partial(check_call, shell=True)
 DB_USER = os.environ.get('FF_DB_USER', 'root')
 DB_PASS = os.environ.get('FF_DB_PASS', '')
+DB_HOST = os.environ.get('FF_DB_HOST', '')
 DB_NAME = os.environ.get('FF_DB_NAME', '_funfactory_test')
 FF_PLAYDOH_REMOTE = os.environ.get('FF_PLAYDOH_REMOTE',
                                    'git://github.com/mozilla/playdoh.git')
@@ -87,6 +88,8 @@ class FunFactoryTests(Plugin):
                                     "'USER': '%s'" % DB_USER)
             new_st = new_st.replace("'PASSWORD': ''",
                                     "'PASSWORD': '%s'" % DB_PASS)
+            new_st = new_st.replace("'HOST': ''",
+                                    "'HOST': '%s'" % DB_HOST)
             new_st = new_st.replace("'NAME': 'playdoh_app'",
                                     "'NAME': '%s'" % DB_NAME)
             new_st = new_st.replace("SECRET_KEY = ''",
@@ -100,6 +103,8 @@ class FunFactoryTests(Plugin):
         extra = ''
         if DB_PASS:
             extra = '--password=%s' % DB_PASS
+        if DB_HOST:
+            extra += ' -h %s' % DB_HOST
         shell('mysql -u %s %s -e "create database if not exists %s"'
               % (DB_USER, extra, DB_NAME))
         check_call([sys.executable, 'manage.py', 'syncdb', '--noinput'],

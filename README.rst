@@ -60,6 +60,9 @@ Here are some environment variables that are acknowledged by the test suite:
 **FF_DB_NAME**
   MySQL db name for manage.py test. Defaults to ``_funfactory_test``.
 
+**FF_DB_HOST**
+  MySQL db host for manage.py test. Defaults to an empty string.
+
 **FF_PLAYDOH_REMOTE**
   Git qualified URL for playdoh repo. Defaults to ``git://github.com/mozilla/playdoh.git``.
 
