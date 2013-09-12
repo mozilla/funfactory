@@ -31,12 +31,21 @@ class LocaleURLMiddleware(object):
                  "loaded. Consider removing funfactory.middleware."
                  "LocaleURLMiddleware from your MIDDLEWARE_CLASSES setting.")
 
+        self.exempt_urls = getattr(settings, 'FF_EXEMPT_LANG_PARAM_URLS', ())
+
+    def _is_lang_change(self, request):
+        """Return True if the lang param is present and URL isn't exempt."""
+        if 'lang' not in request.GET:
+            return False
+
+        return not any(request.path.endswith(url) for url in self.exempt_urls)
+
     def process_request(self, request):
         prefixer = urlresolvers.Prefixer(request)
         urlresolvers.set_url_prefix(prefixer)
         full_path = prefixer.fix(prefixer.shortened_path)
 
-        if 'lang' in request.GET:
+        if self._is_lang_change(request):
             # Blank out the locale so that we can set a new one. Remove lang
             # from the query params so we don't have an infinite loop.
             prefixer.locale = ''
