@@ -15,8 +15,10 @@ class SessionCsrfAdminSite(AdminSite):
 
         return call_parent_login(request, extra_context)
 
+
 # This is for sites that import this file directly.
 site = SessionCsrfAdminSite()
+
 
 def monkeypatch():
     django_admin.site = site

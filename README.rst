@@ -2,6 +2,13 @@ funfactory is what makes `playdoh`_ fun. You import it within a Django
 `manage.py`_ file and it sets up the playdoh environment and configures some
 settings.
 
+.. image:: https://travis-ci.org/mozilla/funfactory.png
+    :target: https://travis-ci.org/mozilla/funfactory
+.. image:: https://coveralls.io/repos/mozilla/funfactory/badge.png?branch=master
+    :target: https://coveralls.io/r/mozilla/funfactory
+.. image:: https://pypip.in/v/funfactory/badge.png
+    :target: https://crate.io/packages/funfactory
+
 Install
 =======
 

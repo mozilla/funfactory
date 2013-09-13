@@ -8,7 +8,6 @@ Installs a skeleton Django app based on Mozilla's Playdoh.
 5. Creates a local settings file
 Read more about it here: http://playdoh.readthedocs.org/
 """
-import base64
 from contextlib import contextmanager
 from datetime import datetime
 import logging

@@ -16,7 +16,7 @@ def patch():
 
     # Import for side-effect: configures logging handlers.
     # pylint: disable-msg=W0611
-    import log_settings
+    import log_settings  # noqa
 
     # Monkey-patch django forms to avoid having to use Jinja2's |safe
     # everywhere.
