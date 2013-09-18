@@ -1,9 +1,7 @@
-import cgi
 import datetime
 import urllib
 import urlparse
 
-from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.template import defaultfilters
 from django.utils.encoding import smart_str
@@ -52,6 +50,7 @@ def urlparams(url_, hash=None, **query):
     new = urlparse.ParseResult(url.scheme, url.netloc, url.path, url.params,
                                query_string, fragment)
     return new.geturl()
+
 
 def _urlencode(items):
     """A Unicode-safe URLencoder."""

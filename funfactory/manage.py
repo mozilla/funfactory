@@ -71,14 +71,14 @@ def setup_environ(manage_file, settings=None, more_pythonic=False):
             sys.path.remove(item)
     sys.path[:0] = new_sys_path
 
-    from django.core.management import execute_manager
+    from django.core.management import execute_manager  # noqa
     if not settings:
         if 'DJANGO_SETTINGS_MODULE' in os.environ:
             settings = import_mod_by_name(os.environ['DJANGO_SETTINGS_MODULE'])
         elif os.path.isfile(os.path.join(ROOT, 'settings_local.py')):
             import settings_local as settings
             warnings.warn("Using settings_local.py is deprecated. See "
-                     "http://playdoh.readthedocs.org/en/latest/upgrading.html",
+                          "http://playdoh.readthedocs.org/en/latest/upgrading.html",
                           DeprecationWarning)
         else:
             import settings

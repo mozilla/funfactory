@@ -9,7 +9,6 @@ import commonware
 class AreciboHandler(logging.Handler):
     """An exception log handler that sends tracebacks to Arecibo."""
     def emit(self, record):
-        from django.conf import settings
         arecibo = getattr(settings, 'ARECIBO_SERVER_URL', '')
 
         if arecibo and hasattr(record, 'request'):
@@ -33,7 +32,7 @@ def log_cef(name, severity=logging.INFO, env=None, username='none',
     c = {'product': settings.CEF_PRODUCT,
          'vendor': settings.CEF_VENDOR,
          'version': settings.CEF_VERSION,
-         'device_version': settings.CEF_DEVICE_VERSION,}
+         'device_version': settings.CEF_DEVICE_VERSION}
 
     # The CEF library looks for some things in the env object like
     # REQUEST_METHOD and any REMOTE_ADDR stuff.  Django not only doesn't send
