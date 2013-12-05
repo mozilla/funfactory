@@ -20,8 +20,14 @@ def patch():
 
     # Monkey-patch django forms to avoid having to use Jinja2's |safe
     # everywhere.
-    import safe_django_forms
-    safe_django_forms.monkeypatch()
+    try:
+        import jingo.monkey
+        jingo.monkey.patch()
+    except ImportError:
+        # If we can't import jingo.monkey, then it's an older jingo,
+        # so we go back to the old ways.
+        import safe_django_forms
+        safe_django_forms.monkeypatch()
 
     # Monkey-patch Django's csrf_protect decorator to use session-based CSRF
     # tokens:
