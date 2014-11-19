@@ -33,7 +33,7 @@ DATABASE_ROUTERS = ('multidb.PinningMasterSlaveRouter',)
 # Site ID is used by Django's Sites framework.
 SITE_ID = 1
 
-## Logging
+# Logging
 LOG_LEVEL = logging.INFO
 HAS_SYSLOG = True
 SYSLOG_TAG = "http_app_playdoh"  # Change this after you fork.
@@ -47,7 +47,7 @@ CEF_VERSION = '0'
 CEF_DEVICE_VERSION = '0'
 
 
-## Internationalization.
+# Internationalization.
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -76,7 +76,7 @@ TOWER_ADD_HEADERS = True
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-US'
 
-## Accepted locales
+# Accepted locales
 
 # Tells the product_details module where to find our local JSON files.
 # This ultimately controls how LANGUAGES are constructed.
@@ -149,7 +149,7 @@ DOMAIN_METHODS = {
 SUPPORTED_NONLOCALES = ['media', 'static', 'admin']
 
 
-## Media and templates.
+# Media and templates.
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
@@ -190,7 +190,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
     'funfactory.context_processors.i18n',
     'funfactory.context_processors.globals',
-    #'jingo_minify.helpers.build_ids',
+    # 'jingo_minify.helpers.build_ids',
 )
 
 
@@ -222,10 +222,10 @@ COMPRESS_CSS_FILTERS = (
     'compressor.filters.cssmin.CSSMinFilter'
 )
 COMPRESS_PRECOMPILERS = (
-    #('text/coffeescript', 'coffee --compile --stdio'),
+    # ('text/coffeescript', 'coffee --compile --stdio'),
     ('text/less', 'lessc {infile} {outfile}'),
-    #('text/x-sass', 'sass {infile} {outfile}'),
-    #('text/x-scss', 'sass --scss {infile} {outfile}'),
+    # ('text/x-sass', 'sass {infile} {outfile}'),
+    # ('text/x-scss', 'sass --scss {infile} {outfile}'),
 )
 
 STATICFILES_FINDERS = (
@@ -243,10 +243,10 @@ def JINJA_CONFIG():
                              'jinja2.ext.with_', 'jinja2.ext.loopcontrols'],
               'finalize': lambda x: x if x is not None else ''}
 #    if 'memcached' in cache.scheme and not settings.DEBUG:
-        # We're passing the _cache object directly to jinja because
-        # Django can't store binary directly; it enforces unicode on it.
-        # Details: http://jinja.pocoo.org/2/documentation/api#bytecode-cache
-        # and in the errors you get when you try it the other way.
+#        # We're passing the _cache object directly to jinja because
+#        # Django can't store binary directly; it enforces unicode on it.
+#        # Details: http://jinja.pocoo.org/2/documentation/api#bytecode-cache
+#        # and in the errors you get when you try it the other way.
 #        bc = jinja2.MemcachedBytecodeCache(cache._cache,
 #                                           "%sj2:" % settings.CACHE_PREFIX)
 #        config['cache_size'] = -1 # Never clear the cache
@@ -254,7 +254,7 @@ def JINJA_CONFIG():
     return config
 
 
-## Middlewares, apps, URL configs.
+# Middlewares, apps, URL configs.
 
 MIDDLEWARE_CLASSES = (
     'funfactory.middleware.LocaleURLMiddleware',
@@ -342,7 +342,7 @@ JAVA_BIN = '/usr/bin/java'
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SECURE = True
 
-## Auth
+# Auth
 # The first hasher in this list will be used for new passwords.
 # Any other hasher in the list can be used for existing passwords.
 # Playdoh ships with Bcrypt+HMAC by default because it's the most secure.
@@ -356,16 +356,16 @@ BASE_PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',
 )
 HMAC_KEYS = {  # for bcrypt only
-    #'2012-06-06': 'cheesecake',
+    # '2012-06-06': 'cheesecake',
 }
 
 from django_sha2 import get_password_hashers
 PASSWORD_HASHERS = get_password_hashers(BASE_PASSWORD_HASHERS, HMAC_KEYS)
 
-## Tests
+# Tests
 TEST_RUNNER = 'test_utils.runner.RadicalTestSuiteRunner'
 
-## Celery
+# Celery
 
 # True says to simulate background tasks without actually using celeryd.
 # Good for local development in case celeryd is not running.
@@ -380,7 +380,7 @@ CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
 # The task can catch that and recover but should exit ASAP.
 CELERYD_TASK_SOFT_TIME_LIMIT = 60 * 2
 
-## Arecibo
+# Arecibo
 # when ARECIBO_SERVER_URL is set, it can use celery or the regular wrapper
 ARECIBO_USES_CELERY = True
 
@@ -392,5 +392,5 @@ except socket.error:
 PROTOCOL = "http://"
 PORT = 80
 
-## django-mobility
+# django-mobility
 MOBILE_COOKIE = 'mobile'

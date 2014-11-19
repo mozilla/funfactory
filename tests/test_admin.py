@@ -31,6 +31,7 @@ class FakeLoader(BaseLoader):
 
 
 @patch.object(settings, 'TEMPLATE_LOADERS', ['tests.test_admin.FakeLoader'])
+@patch.object(settings, 'ALLOWED_HOSTS', ['testserver'])
 class SessionCsrfAdminTests(TestCase):
     urls = 'tests.test_admin'
 
