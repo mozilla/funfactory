@@ -111,6 +111,13 @@ PROD_LANGUAGES = (
     'en-US',
 )
 
+# Map short locale names to long, preferred locale names. This will be used in
+# urlresolvers to determine the best-matching locale from the user's
+# Accept-Language header.
+CANONICAL_LOCALES = {
+    'en': 'en-US',
+}
+
 
 def lazy_lang_url_map():
     from django.conf import settings

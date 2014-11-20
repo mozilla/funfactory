@@ -133,15 +133,24 @@ class TestPrefixer(TestCase):
         prefixer = Prefixer(request)
         eq_(prefixer.get_best_language('de, es'), 'de')
 
-    @override_settings(LANGUAGE_URL_MAP={'en-us': 'en-US', 'es-ar': 'es-AR'})
+    @override_settings(LANGUAGE_URL_MAP={'en-us': 'en-US', 'es-ar': 'es-AR'},
+                       CANONICAL_LOCALES={'es': 'es-ES', 'en': 'en-US'})
     def test_get_best_language_prefix_match(self):
         """
         Should return a language with a matching prefix from
-        settings.LANGUAGE_URL_MAP if it exists but no exact match does
+        settings.LANGUAGE_URL_MAP + settings.CANONICAL_LOCALES if it exists but
+        no exact match does
         """
         request = self.factory.get('/')
         prefixer = Prefixer(request)
-        eq_(prefixer.get_best_language('es-CL'), 'es-AR')
+        eq_(prefixer.get_best_language('en'), 'en-US')
+        eq_(prefixer.get_best_language('en-CA'), 'en-US')
+        eq_(prefixer.get_best_language('en-GB'), 'en-US')
+        eq_(prefixer.get_best_language('en-US'), 'en-US')
+        eq_(prefixer.get_best_language('es'), 'es-ES')
+        eq_(prefixer.get_best_language('es-AR'), 'es-AR')
+        eq_(prefixer.get_best_language('es-CL'), 'es-ES')
+        eq_(prefixer.get_best_language('es-MX'), 'es-ES')
 
     @override_settings(LANGUAGE_URL_MAP={'en-us': 'en-US'})
     def test_get_best_language_no_match(self):
