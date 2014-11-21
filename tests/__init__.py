@@ -96,6 +96,7 @@ class FunFactoryTests(Plugin):
                                     "SECRET_KEY = 'testinglolz'")
             new_st = new_st + "\nfrom . import base\nINSTALLED_APPS = list(base.INSTALLED_APPS) + " \
                      "['django.contrib.admin']\n"
+            new_st = new_st + "\nSITE_URL = ''\n"
 
         with open(st, 'w') as f:
             f.write(new_st)

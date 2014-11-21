@@ -11,12 +11,14 @@ import funfactory.utils as utils
 class AbsolutifyTests(TestCase):
     ABS_PATH = '/some/absolute/path'
 
+    @patch.object(settings, 'SITE_URL', 'http://testserver')
     def test_basic(self):
         url = utils.absolutify(AbsolutifyTests.ABS_PATH)
         eq_('%s/some/absolute/path' % settings.SITE_URL, url)
 
     @patch.object(settings, 'PROTOCOL', 'https://')
     @patch.object(settings, 'PORT', 443)
+    @patch.object(settings, 'SITE_URL', 'http://testserver')
     def test_https(self):
         url = utils.absolutify(AbsolutifyTests.ABS_PATH)
         eq_('%s/some/absolute/path' % settings.SITE_URL, url)
