@@ -90,7 +90,10 @@ cfg = {
 }
 
 for key, value in settings.LOGGING.items():
-    cfg[key].update(value)
+    if hasattr(cfg[key], 'update'):
+        cfg[key].update(value)
+    else:
+        cfg[key] = value
 
 # Set the level and handlers for all loggers.
 for logger in cfg['loggers'].values() + [cfg['root']]:
