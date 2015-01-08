@@ -7,7 +7,7 @@ import warnings
 
 
 current_settings = None
-execute_manager = None
+execute_from_command_line = None
 log = logging.getLogger(__name__)
 ROOT = None
 
@@ -32,7 +32,7 @@ def setup_environ(manage_file, settings=None, more_pythonic=False):
         This requires a newer Playdoh layout without top level apps, lib, etc.
     """
     # sys is global to avoid undefined local
-    global sys, current_settings, execute_manager, ROOT
+    global sys, current_settings, execute_from_command_line, ROOT
 
     ROOT = os.path.dirname(os.path.abspath(manage_file))
 
@@ -71,7 +71,7 @@ def setup_environ(manage_file, settings=None, more_pythonic=False):
             sys.path.remove(item)
     sys.path[:0] = new_sys_path
 
-    from django.core.management import execute_manager  # noqa
+    from django.core.management import execute_from_command_line  # noqa
     if not settings:
         if 'DJANGO_SETTINGS_MODULE' in os.environ:
             settings = import_mod_by_name(os.environ['DJANGO_SETTINGS_MODULE'])
@@ -137,7 +137,8 @@ def _not_setup():
             'setup_environ() has not been called for this process')
 
 
-def main():
+def main(argv=None):
     if current_settings is None:
         _not_setup()
-    execute_manager(current_settings)
+    argv = argv or sys.argv
+    execute_from_command_line(argv)
