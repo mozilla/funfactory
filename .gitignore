@@ -5,4 +5,5 @@
 .playdoh
 .tox
 .coverage
+dist
 funfactory.egg-info/
